@@ -1,0 +1,91 @@
+# Dependencies numpy, scikit-learn, matplotlib, pandas, openpyxl
+# @@ Hector Lopez Lopez @@
+import numpy as np
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import pandas as pd  
+from sklearn.metrics import r2_score
+
+class LinearRegression:
+    # Default Parameters
+    def __init__(self):
+        self.alpha = 0.05
+        self.n_iter = 10000
+        self.tolerance= 1e-08
+        self.weights = None
+        self.bias = 0
+
+    # Custom Gradient Descent Algorithm
+    def gradient_descent(self, X, y):
+        # Set weights to 0
+        self.weights = np.zeros((self.features,1))
+        
+        for _ in range(self.n_iter):
+            # Multiply values by weights and add bias for predicted
+            y_pred = X @ self.weights + self.bias
+            # Calculating for SSR Gradient
+            w = (1/self.n) * (y_pred - y).T 
+            # Calculate the slope
+            b = (1/self.n) * np.sum(y_pred - y)
+
+            # SSR Gradient 
+            diff = -self.alpha * w
+
+            # Ensure tolerance threshold is met
+            if np.all(np.abs(diff) <= self.tolerance):
+                break
+
+            # Update weights and bias
+            self.weights = self.weights + X.T @ diff.T
+            self.bias = self.bias - self.alpha * b
+    
+    # Process Data to find Predicted Values
+    def find_model(self, X, y):
+
+        # Define features for Data
+        self.features = X.shape[1]
+        # Define count
+        self.n = X.shape[0]
+        # Call to gradient Descent Algorithm
+        self.gradient_descent(X,y)
+        # Find predicted weight with updates values
+        y_pred = X @ self.weights + self.bias
+
+        return y_pred, self.weights, self.bias
+        
+data = pd.read_excel("https://github.com/Hlopez490/ML01/blob/main/Real%20estate%20valuation%20data%20set.xlsx?raw=true")
+
+# remove null,Na,NaN,NaT values from data
+data = data.dropna()
+
+X = data[["X2 house age","X3 distance to the nearest MRT station","X4 number of convenience stores"]].copy()
+X.columns = ['X2', 'X3', 'X4']
+y = data[["Y house price of unit area"]].copy()
+y.columns = ['Y']
+
+X=(X-X.min())/(X.max()-X.min())
+X["intercept"] = 1
+X = X[["intercept",'X2', 'X3', 'X4']]
+
+regression = LinearRegression()
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.7)
+
+model, weights_train, bias_train = regression.find_model(X_train.values, y_train.values)
+
+Y_pred_train = X_train @ weights_train + bias_train
+MSE_train = np.square(np.subtract(y_train,Y_pred_train)).mean()
+r2_train = r2_score(y_train, Y_pred_train)
+print(MSE_train)
+print(r2_train)
+
+X_test = X_test.sort_values(by = 'X2',ascending=True)
+X_plot = X_test['X2'].values.reshape(-1,1)
+y_plot = y_test['Y'].values
+
+Y_pred_test = X_test @ weights_train + bias_train
+MSE_test = np.square(np.subtract(y_plot.reshape(-1,1),Y_pred_test)).mean()
+r2_test = r2_score(y_test, Y_pred_test)
+print(MSE_test)
+print(r2_test)
+

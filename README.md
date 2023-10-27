@@ -1,2 +1,2 @@
 # ML-Projects
-My Jupyter Notebook Machine Learning Projects
+My Python Machine Learning Projects
