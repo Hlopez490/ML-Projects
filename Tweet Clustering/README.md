@@ -24,9 +24,9 @@ Download file or clone repository to local machine
 
 Install dependecies in the Prerequisites.
 
-Open file and run
+Open file and run on preferred Code Debugger
 ```
-python file.py
+python TweetClustering.py
 ```
 
 ## Built With
