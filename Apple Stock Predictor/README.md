@@ -33,7 +33,7 @@ python AppleStockPredictor.py
 ## Built With
 
 * [Scikit-Learn](https://scikit-learn.org/stable/install.html)
-* [Numpy]([https://maven.apache.org/](https://numpy.org/install/)) 
+* [Numpy](https://numpy.org/install/)
 * [Pandas](https://pandas.pydata.org/getting_started.html)
 * [Tabulate](https://pypi.org/project/tabulate/)
 
