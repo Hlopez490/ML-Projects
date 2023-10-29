@@ -25,9 +25,9 @@ Download file or clone repository to local machine
 
 Install dependecies in the Prerequisites.
 
-Open file and run
+Run Python file
 ```
-python file.py
+python AppleStockPredictor.py
 ```
 
 ## Built With
