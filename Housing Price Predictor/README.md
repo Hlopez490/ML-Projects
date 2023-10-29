@@ -23,9 +23,9 @@ Download file or clone repository to local machine
 
 Install dependecies in the Prerequisites.
 
-Open file and run
+Run Python File with below command
 ```
-python file.py
+python HousingPricePredictor.py
 ```
 
 ## Built With
